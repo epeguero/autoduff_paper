@@ -1,0 +1,10 @@
+CRADLE: Cross-Backend Validation to Detect and Localize Bugs in Deep Learning Libraries
+
+CRADLE is a differential testing framework for ML libraries. It operates over two implementations of an ML model in 2 stages: 1) bug detection, 2) bug localization. During bug detection, both model implementations are evaluated at a given input and the outputs compared with each other for inconsistencies. Afterwards, the bug is localized by once again evaluating the two models at the bug-producing input, this time recording the hidden states during both executions and comparing them for inconsistencies, essentially performing a "diff" on the two execution trees. 
+
+The authors identify key challenges in identifying "significant" inconsistencies:
+    - Bugs may be harder to detect in models with high confidence, since output labels are unlikely to change (i.e., the highest confidence label will likely still win by a large margin)
+    - Directly comparing each implementation's difference from the ground truth is an unsuitable metric for differential testing, since this measure conflates the inconsistency of the output with the accuracy of the model. However, ground truth comparison can help identify bugs that impact accuracy. Two metrics are proposed, one for classification based models, another for that and regression models.
+    - The thresholds for defining inconsistencies must be empirically measured, but a rule of thumb: lower thresholds are more complete, but may capture less severe bugs; raising the threshold may narrow the bugs found to the most severe.
+
+CRADLE is run on 15 versions of Keras, and the latest versions at the time of CNTK, Theano, and TensorFlow. 30 pretrained DL models are run using 11 public datasets. The result: 12 bugs are found across 28/30 models that cause 104 unique inconsistencies, with a runtime of less than 5 minutes.

@@ -1,0 +1,14 @@
+High-Accuracy Low-Precision Training
+
+Goal: Design a machine learning algorithm that provides high 'statistical' accuracy even on low-precision hardware.
+
+Key Idea: Augment stochastic variance-reduced gradient (SVRG) with two novel techniques: 
+    - 'bit centering': intersperse low-precision 'inner-loops' with high-precision 'outer-loops'
+    - 'dynamic bias adjustment': prevents overflow and underflow
+
+
+Background:
+
+Gradient descent (GD) is expensive: it requires computing one gradient per training datum. Instead, Stochastic gradient descent (SGD) relaxes this requirement by computing gradients of a subset of the data; in expectation, the computed average equals the gradient computed in GD. However, the variance of this computation is large, so much so that the convergence rate changes from linear to GD's sub-linear. Stochastic Variance-Reduced Gradient Descent( SVRGD) addresses this limitation by subtracting the variance from the computed gradient estimation, reestablishing a linear convergence rate.
+
+The decreased variance of SVRGD is a key property towards establishing high statistical accuracy. In the context of low-precision training, even more so. This paper adapts SVRGD for the low-precision scenario.

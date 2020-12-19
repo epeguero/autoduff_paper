@@ -1,0 +1,16 @@
+Identifying Implementation Bugs in Machine Learning Based Image Classifiers using Metamorphic Testing
+
+https://arxiv.org/pdf/1808.05353.pdf
+
+
+Key idea: instead of testing a model f using (actual, expected) pairs, use 2 pairs (x1, y1), (x2, y2), such that f(x1) R f(T(x2). Together, the function T and the relation R define a metamorphic relation, MR = (T, R).
+
+Example: if f is an SVM model, then the pair (perm, =) forms a metamorphic relation, where perm is a deterministic permutation of the features of input x.
+
+The paper uses 4 different MRs:
+MR-1:  Permutation of training and test features
+MR-2: Permutation of order of training instances
+MR-3: Shifting of training and test features by a constant (for RBF kernel)
+MR-4: Linear scaling of test features (for linear kernel)
+
+These MRs were tested by applying the MutPy tool, which is designed to automatically insert errors programmers typically make, on linear (52 mutants) and non-linear (50) SVM. These include things like swapping arithmetic operators (e.g., "*" for "+"), incorrectly negating numbers, etc, across different files, affecting training, testing, and the tested model architecture (cifar and resnet).
